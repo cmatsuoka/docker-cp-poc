@@ -1,0 +1,5 @@
+parts:
+  foo:
+    plugin: dump
+    source: poc
+    stage-packages: [hello]
