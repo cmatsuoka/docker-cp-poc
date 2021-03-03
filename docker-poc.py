@@ -59,10 +59,13 @@ def process_parts(options: argparse.Namespace) -> None:
 
     # Check if stage packages changed, if so clean the stage step
     stage_packages = lf.all_stage_packages()
+    print("current stage packages:", stage_packages)
     stage_deps = lf.resolve_package_dependencies(stage_packages)
+    print("current stage packages and dependencies:", sorted(stage_deps))
     state_stage_deps = lf.all_state_assets("stage-packages", step=Step.PULL)
+    print("state stage packages and dependencies  :", sorted(state_stage_deps))
     if set(stage_deps) != set(state_stage_deps):
-        lf.clean(Step.STAGE)
+        lf.clean(Step.PULL)  # to update the pull state containing the stage packages
         lf.reload_state()
         if _LAYER_DIR.is_dir():
             shutil.rmtree(_LAYER_DIR)
